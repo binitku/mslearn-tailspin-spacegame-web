@@ -65,17 +65,19 @@ steps:
     minorVersion: '0'
     patchVersion: '0'
 
-- task: NuGetCommand@2
-  displayName: 'Publish NuGet package'
-  inputs:
-    command: push
-    publishVstsFeed: 'Tailspin.SpaceGame.Web.Models2'
-    allowPackageConflicts: true
-  condition: succeeded()
+
 
 - task: WhiteSource Bolt@19
   displayName: 'Run WhiteSource Bolt'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
+  condition: succeeded()
+
+  - task: NuGetCommand@2
+  displayName: 'Publish NuGet package'
+  inputs:
+    command: push
+    publishVstsFeed: 'Tailspin.SpaceGame.Web.Models'
+    allowPackageConflicts: true
   condition: succeeded()
